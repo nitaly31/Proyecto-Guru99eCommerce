@@ -22,7 +22,8 @@ public class AppTest {
 	@BeforeTest
 	public void setUp() {
 		driver = new FirefoxDriver();
-		url = "http://live.techpanda.org/";
+		//url = "http://live.techpanda.org/";
+		url = "http://live.techpanda.org/index.php/mobile.html";
 		driver.get(url);
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
@@ -63,6 +64,16 @@ public class AppTest {
 		File screen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		String png = (EVIDENCE_PATH + scc + ".png");
 		FileUtils.copyFile(screen, new File(png));
+	}
+	
+	@Test(priority = 5)
+	public void VerifyCostOfProduct() {
+		String XPeriaPrice = driver.findElement(By.cssSelector("#product-price-1 > span.price")).getText();
+		driver.findElement(By.id("product-collection-image-1")).click();
+		
+		String detailPrice = driver.findElement(By.cssSelector("span.price")).getText();
+		
+		Assert.assertEquals(XPeriaPrice, detailPrice);
 	}
 	
 	@AfterTest
